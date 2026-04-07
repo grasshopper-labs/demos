@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grasshopper Labs Demo - Demo Test Deal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #1a1a2e;
+            color: white;
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: #1a1a2e;
+            padding: 1rem 2rem;
+            border-bottom: 2px solid #e8530a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e8530a;
+        }
+        
+        .prospect-info {
+            font-size: 1.1rem;
+        }
+        
+        .container {
+            display: flex;
+            height: calc(100vh - 80px);
+        }
+        
+        .sidebar {
+            width: 300px;
+            background-color: #2a2a3e;
+            padding: 2rem 1rem;
+            overflow-y: auto;
+        }
+        
+        .step {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .step:hover {
+            background-color: #3a3a4e;
+        }
+        
+        .step.active {
+            background-color: #e8530a;
+            border-color: #e8530a;
+        }
+        
+        .step-number {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .step-content {
+            display: none;
+        }
+        
+        .step-content.active {
+            display: block;
+        }
+        
+        .content-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #e8530a;
+        }
+        
+        .talking-points {
+            margin-bottom: 2rem;
+        }
+        
+        .talking-points h3 {
+            margin-bottom: 1rem;
+            color: #e8530a;
+        }
+        
+        .talking-points ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .talking-points li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .talking-points li::before {
+            content: '→';
+            color: #e8530a;
+            position: absolute;
+            left: 0;
+        }
+        
+        .wow-moment {
+            background-color: #2a2a3e;
+            border-left: 4px solid #e8530a;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .wow-moment h4 {
+            color: #e8530a;
+            margin-bottom: 0.5rem;
+        }
+        
+        .navigation-tip {
+            background-color: #1a2a1a;
+            border: 1px solid #4a7c59;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        
+        .navigation-tip h4 {
+            color: #4a7c59;
+            margin-bottom: 0.5rem;
+        }
+        
+        .loom-section {
+            background-color: #2a2a3e;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        
+        .loom-section h4 {
+            color: #e8530a;
+            margin-bottom: 1rem;
+        }
+        
+        .loom-input {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .loom-input input {
+            flex: 1;
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #4a4a5e;
+            background-color: #1a1a2e;
+            color: white;
+        }
+        
+        .loom-input button {
+            padding: 0.5rem 1rem;
+            background-color: #e8530a;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .loom-embed {
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+        }
+        
+        .nav-button {
+            padding: 1rem 2rem;
+            background-color: #e8530a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .nav-button:hover {
+            background-color: #d14708;
+        }
+        
+        .nav-button:disabled {
+            background-color: #4a4a5e;
+            cursor: not-allowed;
+        }
+        
+        .footer {
+            background-color: #1a1a2e;
+            padding: 1rem 2rem;
+            border-top: 1px solid #4a4a5e;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        .keyboard-hint {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #2a2a3e;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">Grasshopper Labs</div>
+        <div class="prospect-info">Demo for Prospect at Demo Test Deal</div>
+    </div>
+    
+    <div class="container">
+        <div class="sidebar">
+            <div class="step active" data-step="0">
+                <div class="step-number">Step 1</div>
+                <div class="step-title">Introduction</div>
+            </div>
+            <div class="step" data-step="1">
+                <div class="step-number">Step 2</div>
+                <div class="step-title">Dispatch & Routing</div>
+            </div>
+            <div class="step" data-step="2">
+                <div class="step-number">Step 3</div>
+                <div class="step-title">Driver App</div>
+            </div>
+            <div class="step" data-step="3">
+                <div class="step-number">Step 4</div>
+                <div class="step-title">Customer Notifications</div>
+            </div>
+            <div class="step" data-step="4">
+                <div class="step-number">Step 5</div>
+                <div class="step-title">Billing</div>
+            </div>
+            <div class="step" data-step="5">
+                <div class="step-number">Step 6</div>
+                <div class="step-title">Analytics</div>
+            </div>
+            <div class="step" data-step="6">
+                <div class="step-number">Step 7</div>
+                <div class="step-title">Closing</div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="step-content active" id="step-0">
+                <h1 class="content-title">Welcome to Grasshopper Labs</h1>
+                <div class="talking-points">
+                    <h3>Introduction - Demo Test Deal</h3>
+                    <ul>
+                        <li>Welcome Prospect! Today we'll show you how Grasshopper Labs transforms last-mile delivery operations for carriers like Demo Test Deal</li>
+                        <li>We'll walk through our complete platform - from dispatch optimization to real-time driver management</li>
+                        <li>You'll see how our technology reduces operational costs by up to 30% while improving customer satisfaction</li>
+                        <li>This demo is specifically tailored for Demo Test Deal's carrier operations and unique challenges</li>
+                        <li>Feel free to interrupt with questions - this is your time!</li>
+                    </ul>
+                </div>
+                
+                <div class="wow-moment">
+                    <h4>🚀 WOW Moment</h4>
+                    <p>Show the real-time dashboard with live delivery tracking - demonstrate how Demo Test Deal would see all their vehicles, drivers, and deliveries in one unified view with instant updates.</p>
+                </div>
+                
+                <div class="navigation-tip">
+                    <h4>📍 Navigation Path</h4>
+                    <p>Start with the main dashboard overview, then zoom into a specific delivery route to show the level of detail and control available to Demo Test Deal's operations team.</p>
+                </div>
+                
+                <div class="loom-section">
+                    <h4>Loom Recording for Introduction</h4>
+                    <div class="loom-input">
+                        <input type="text" id="loom-0" placeholder="Paste Loom URL here...">
+                        <button onclick="embedLoom(0)">Embed Video</button>
+                    </div>
+                    <div class="loom-embed" id="loom-embed-0"></div>
+                </div>
+            </div>
+            
+            <div class="step-content" id="step-1">
+                <h1 class="content-title">Intelligent Dispatch & Routing</h1>
+                <div class="talking-points">
+                    <h3>Optimized Operations for Demo Test Deal</h3>
+                    <ul>
+                        <li>Our AI-powered routing engine optimizes Demo Test Deal's delivery routes in real-time, considering traffic, driver capacity, and delivery windows</li>
+                        <li>Dynamic re-routing capabilities automatically adjust for delays, cancellations, or priority changes</li>
+                        <li>Load balancing ensures optimal driver utilization across Demo Test Deal's fleet</li>
+                        <li>Integration with existing dispatch systems means no disruption to current workflows</li>
+                        <li>Batch optimization can handle hundreds of deliveries simultaneously for peak efficiency</li>
+                    </ul>
+                </div>
+                
+                <div class="wow-moment">
+                    <h4>🚀 WOW Moment</h4>
+                    <p>Demonstrate live route optimization - show how adding a new urgent delivery automatically recalculates the best routes for all drivers, saving Demo Test Deal time and fuel costs.</p>
+                </div>
+                
+                <div class="navigation-tip">
+                    <h4>📍 Navigation Path</h4>
+                    <p>Click on 'Optimize Routes' button, then show the before/after comparison. Highlight the estimated time and cost savings for Demo Test Deal's typical delivery volume.</p>
+                </div>
+                
+                <div class="loom-section">
+                    <h4>Loom Recording for Dispatch & Routing</h4>
+                    <div class="loom-input">
+                        <input type="text" id="loom-1" placeholder="Paste Loom URL here...">
+                        <button onclick="embedLoom(1)">Embed Video</button>
+                    </div>
+                    <div class="loom-embed" id="loom-embed-1"></div>
+                </div>
+            </div>
+            
+            <div class="step-content" id="step-2">
+                <h1 class="content-title">Driver Mobile App</h1>
+                <div class="talking-points">
+                    <h3>Empowering Demo Test Deal's Drivers</h3>
+                    <ul>
+                        <li>Intuitive mobile app designed specifically for Demo Test Deal's drivers with offline capability</li>
+                        <li>Turn-by-turn GPS navigation with real-time traffic updates and route optimization</li>
+                        <li>Digital proof of delivery with photo capture, signatures, and delivery notes</li>
+                        <li>Two-way communication between drivers and Demo Test Deal's dispatch team</li>
+                        <li>Performance tracking and gamification features to boost driver engagement and retention</li>
+                    </ul>
+                </div>
+                
+                <div class="wow-moment">
+                    <h4>🚀 WOW Moment</h4>
+                    <p>Show the driver's perspective during a delivery - demonstrate how Demo Test Deal's drivers get guided through each stop with all necessary customer information and how proof of delivery is instantly synced back to the office.</p>
+                </div>
+                
+                <div class="navigation-tip">
+                    <h4>📍 Navigation Path</h4>
+                    <p>Switch to mobile view, follow a driver through a delivery sequence. Show how the dispatch team at Demo Test Deal gets real-time updates on delivery status.</p>
+                </div>
+                
+                <div class="loom-section">
+                    <h4>Loom Recording for Driver App</h4>
+                    <div class="loom-input">
+                        <input type="text" id="loom-2" placeholder="Paste Loom URL here...">
+                        <button onclick="embedLoom(2)">Embed Video</button>
+                    </div>
+                    <div class="loom-embed" id="loom-embed-2"></div>
+                </div>
+            </div>
+            
+            <div class="step-content" id="step-3">
+                <h1 class="content-title">Customer Notifications</h1>
+                <div class="talking-points">
+                    <h3>Enhanced Customer Experience for Demo Test Deal</h3>
+                    <ul>
+                        <li>Automated SMS and email notifications keep Demo Test Deal's customers informed throughout the delivery process</li>
+                        <li>Real-time tracking links allow customers to see exactly when their delivery will arrive</li>
+                        <li>Customizable notification templates maintain Demo Test Deal's brand identity and messaging</li>
+                        <li>Delivery exception handling with automatic customer communication for delays or issues</li>
+                        <li>Customer feedback collection to help Demo Test Deal maintain high service standards</li>
+                    </ul>
+                </div>
+                
+                <div class="wow-moment">
+                    <h4>🚀 WOW Moment</h4>
+                    <p>Show a customer receiving a delivery notification with Demo Test Deal branding, then demonstrate the live tracking experience from the customer's perspective - they can see their driver approaching in real-time.</p>
+                </div>
+                
+                <div class="navigation-tip">
+                    <h4>📍 Navigation Path</h4>
+                    <p>Go to Customer Communications tab, show notification templates branded for Demo Test Deal, then click on a tracking link to show the customer view.</p>
+                </div>
+                
+                <div class="loom-section">
+                    <h4>Loom Recording for Customer Notifications</h4>
+                    <div class="loom-input">
+                        <input type="text" id="loom-3" placeholder="Paste Loom URL here...">
+                        <button onclick="embedLoom(3)">Embed Video</button>
+                    </div>
+                    <div class="loom-embed" id="loom-embed-3"></div>
+                </div>
+            </div>
+            
+            <div class="step-content" id="step-4">
+                <h1 class="content-title">Automated Billing</h1>
+                <div class="talking-points">
+                    <h3>Streamlined Financials for Demo Test Deal</h3>
+                    <ul>
+                        <li>Automatic invoice generation based on completed deliveries with customizable billing rules for Demo Test Deal</li>
+                        <li>Integration with Demo Test Deal's existing accounting systems and payment processors</li>
+                        <li>Detailed cost tracking per delivery, route, and driver for accurate profitability analysis</li>
+                        <li>Flexible pricing models support Demo Test Deal's various service tiers and customer contracts</li>
+                        <li>Real-time financial dashboards provide Demo Test Deal with immediate visibility into revenue and costs</li>
+                    </ul>
+                </div>
+                
+                <div class="wow-moment">
+                    <h4>🚀 WOW Moment</h4>
+                    <p>Show how a completed delivery route automatically generates invoices for Demo Test Deal's customers, calculates driver payments, and updates financial dashboards - all without manual intervention.</p>
+                </div>
+                
+                <div class="navigation-tip">
+                    <h4>📍 Navigation Path</h4>
+                    <p>Navigate to Billing Dashboard, show recent invoices generated for Demo Test Deal, then drill down into cost analysis by route and driver performance.</p>
+                </div>
+                
+                <div class="loom-section">
+                    <h4>Loom Recording for Billing</h4>
+                    <div class="loom-input">
+                        <input type="text" id="loom-4" placeholder="Paste Loom URL here...">
+                        <button onclick="embedLoom(4)">Embed Video</button>
+                    </div>
+                    <div class="loom-embed" id="loom-embed-4"></div>
+                </div>
+            </div>
+            
+            <div class="step-content" id="step-5">
+                <h1 class="content-title">Advanced Analytics</h1>
+                <div class="talking-points">
+                    <h3>Data-Driven Insights for Demo Test Deal</h3>
+                    <ul>
+                        <li>Comprehensive performance metrics give Demo Test Deal visibility into delivery success rates, on-time performance, and customer satisfaction</li>
+                        <li>Driver performance analytics help Demo Test Deal identify top performers and coaching opportunities</li>
+                        <li>Route efficiency analysis reveals optimization opportunities and cost savings potential</li>
+                        <li>Predictive analytics forecast demand patterns to help Demo Test Deal plan capacity and staffing</li>
+                        <li>Custom reporting capabilities allow Demo Test Deal to create branded reports for their customers</li>
+                    </ul>
+                </div>
+                
+                <div class="wow-moment">
+                    <h4>🚀 WOW Moment</h4>
+                    <p>Display Demo Test Deal's performance dashboard with key metrics, then show predictive analytics forecasting next month's delivery volume and recommended staffing levels based on historical data.</p>
+                </div>
+                
+                <div class="navigation-tip">
+                    <h4>📍 Navigation Path</h4>
+                    <p>Open Analytics Dashboard, highlight Demo Test Deal's key performance indicators, then show how to create a custom report that Demo Test Deal could share with their customers.</p>
+                </div>
+                
+                <div class="loom-section">
+                    <h4>Loom Recording for Analytics</h4>
+                    <div class="loom-input">
+                        <input type="text" id="loom-5" placeholder="Paste Loom URL here...">
+                        <button onclick="embedLoom(5)">Embed Video</button>
+                    </div>
+                    <div class="loom-embed" id="loom-embed-5"></div>
+                </div>
+            </div>
+            
+            <div class="step-content" id="step-6">
+                <h1 class="content-title">Next Steps & Partnership</h1>
+                <div class="talking-points">
+                    <h3>Your Journey with Grasshopper Labs</h3>
+                    <ul>
+                        <li>Prospect, based on what we've shown, Grasshopper Labs can transform Demo Test Deal's delivery operations with measurable ROI</li>
+                        <li>We'll provide Demo Test Deal with a customized implementation plan that minimizes disruption to current operations</li>
+                        <li>Our technical team will work closely with Demo Test Deal's IT department to ensure seamless integration</li>
+                        <li>Comprehensive training for Demo Test Deal's staff and drivers ensures smooth adoption</li>
+                        <li>Ongoing support and regular business reviews help Demo Test Deal maximize the platform's value</li>
+                    </ul>
+                </div>
+                
+                <div class="wow-moment">
+                    <h4>🚀 Final WOW Moment</h4>
+                    <p>Present a customized ROI projection showing how Grasshopper Labs could save Demo Test Deal specific dollar amounts based on their delivery volume and current operational costs.</p>
+                </div>
+                
+                <div class="navigation-tip">
+                    <h4>📍 Navigation Path</h4>
+                    <p>Show the ROI calculator with Demo Test Deal's estimated savings, then present the implementation timeline and next steps for moving forward.</p>
+                </div>
+                
+                <div class="loom-section">
+                    <h4>Loom Recording for Closing</h4>
+                    <div class="loom-input">
+                        <input type="text" id="loom-6" placeholder="Paste Loom URL here...">
+                        <button onclick="embedLoom(6)">Embed Video</button>
+                    </div>
+                    <div class="loom-embed" id="loom-embed-6"></div>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="nav-button" id="prev-btn" onclick="previousStep()" disabled>← Previous</button>
+                <button class="nav-button" id="next-btn" onclick="nextStep()">Next →</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        Demo prepared by Ori Anavim for Demo Test Deal | April 7, 2026
+    </div>
+    
+    <div class="keyboard-hint">
+        Use ← → arrow keys to navigate
+    </div>
+    
+    <script>
+        let currentStep = 0;
+        const totalSteps = 7;
+        
+        function showStep(stepIndex) {
+            // Hide all steps
+            document.querySelectorAll('.step-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Show current step
+            document.getElementById(`step-${stepIndex}`).classList.add('active');
+            document.querySelector(`[data-step="${stepIndex}"]`).classList.add('active');
+            
+            // Update navigation buttons
+            document.getElementById('prev-btn').disabled = stepIndex === 0;
+            document.getElementById('next-btn').disabled = stepIndex === totalSteps - 1;
+            
+            currentStep = stepIndex;
+        }
+        
+        function nextStep() {
+            if (currentStep < totalSteps - 1) {
+                showStep(currentStep + 1);
+            }
+        }
+        
+        function previousStep() {
+            if (currentStep > 0) {
+                showStep(currentStep - 1);
+            }
+        }
+        
+        function embedLoom(stepIndex) {
+            const input = document.getElementById(`loom-${stepIndex}`);
+            const embedDiv = document.getElementById(`loom-embed-${stepIndex}`);
+            const url = input.value.trim();
+            
+            if (url) {
+                let embedUrl = url;
+                if (url.includes('loom.com/share/')) {
+                    const videoId = url.split('/share/')[1].split('?')[0];
+                    embedUrl = `https://www.loom.com/embed/${videoId}`;
+                }
+                
+                embedDiv.innerHTML = `<iframe src="${embedUrl}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="width: 100%; height: 400px;"></iframe>`;
+                embedDiv.style.display = 'block';
+            }
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') {
+                nextStep();
+            } else if (e.key === 'ArrowLeft') {
+                previousStep();
+            }
+        });
+        
+        // Sidebar navigation
+        document.querySelectorAll('.step').forEach(step => {
+            step.addEventListener('click', function() {
+                const stepIndex = parseInt(this.getAttribute('data-step'));
+                showStep(stepIndex);
+            });
+        });
+        
+        // Initialize
+        showStep(0);
+    </script>
+</body>
+</html>
