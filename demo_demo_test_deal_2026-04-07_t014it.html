@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grasshopper Demo — Demo Test Deal</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0f0f1a; color: #f0f0f0; display: flex; flex-direction: column; min-height: 100vh; }
+    header { background: #1a1a2e; border-bottom: 3px solid #e8530a; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 1.4rem; font-weight: 800; color: #e8530a; letter-spacing: -0.5px; }
+    .prospect-badge { background: #e8530a22; border: 1px solid #e8530a55; border-radius: 8px; padding: 6px 14px; font-size: 0.85rem; color: #e8530a; }
+    .prospect-badge strong { color: #fff; }
+    .opening-hook { background: #1a1a2e; border-left: 4px solid #e8530a; padding: 14px 28px; font-size: 0.95rem; color: #ccc; font-style: italic; }
+    .main { display: flex; flex: 1; }
+    nav { width: 220px; background: #12121f; border-right: 1px solid #2a2a3e; padding: 20px 0; flex-shrink: 0; }
+    nav ul { list-style: none; }
+    .nav-item { padding: 12px 20px; cursor: pointer; font-size: 0.85rem; color: #888; border-left: 3px solid transparent; transition: all 0.15s; }
+    .nav-item:hover { color: #fff; background: #1a1a2e; }
+    .nav-item.active { color: #fff; border-left-color: #e8530a; background: #1a1a2e; font-weight: 600; }
+    .content { flex: 1; padding: 32px 40px; max-width: 860px; }
+    .step { display: none; }
+    .step.active { display: block; }
+    .step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+    .step-num { background: #e8530a; color: #fff; font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; }
+    h2 { font-size: 1.6rem; font-weight: 700; color: #fff; }
+    .bullets { margin: 0 0 24px 20px; }
+    .bullets li { margin-bottom: 10px; color: #ccc; line-height: 1.6; }
+    .wow-box { background: #1e1a0e; border: 1px solid #e8530a44; border-radius: 8px; padding: 16px 20px; margin-bottom: 16px; }
+    .wow-label { font-size: 0.8rem; font-weight: 700; color: #e8530a; display: block; margin-bottom: 6px; }
+    .wow-box p { color: #ddd; font-size: 0.95rem; }
+    .nav-tip { font-size: 0.82rem; color: #777; background: #1a1a2e; padding: 10px 14px; border-radius: 6px; margin-bottom: 20px; }
+    .nav-tip span { color: #e8530a; font-weight: 600; margin-right: 6px; }
+    .loom-box { margin-top: 24px; }
+    .loom-input { width: 70%; padding: 9px 12px; background: #1a1a2e; border: 1px solid #333; border-radius: 6px; color: #fff; font-size: 0.9rem; }
+    .loom-btn { padding: 9px 18px; background: #e8530a; border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; margin-left: 8px; }
+    .loom-btn:hover { background: #c94509; }
+    .loom-embed { margin-top: 14px; }
+    .loom-embed iframe { border-radius: 8px; border: none; width: 100%; max-width: 680px; height: 380px; }
+    .nav-btns { display: flex; gap: 12px; margin-top: 32px; }
+    .nav-btns button { padding: 10px 22px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 600; }
+    .btn-prev { background: #2a2a3e; color: #ccc; }
+    .btn-next { background: #e8530a; color: #fff; }
+    footer { background: #12121f; border-top: 1px solid #2a2a3e; padding: 12px 28px; display: flex; justify-content: space-between; font-size: 0.78rem; color: #555; }
+    .closing-box { background: #1a1a2e; border: 1px solid #2a2a3e; border-radius: 8px; padding: 20px; margin-top: 24px; }
+    .closing-box h3 { color: #e8530a; font-size: 1rem; margin-bottom: 10px; }
+    .closing-box p { color: #ccc; font-size: 0.95rem; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">🦗 Grasshopper Labs</div>
+    <div class="prospect-badge">Demo for <strong>Prospect</strong> · Demo Test Deal · Last-Mile Carrier</div>
+  </header>
+  <div class="opening-hook">"Hi there! I'm excited to show Demo Test Deal how Grasshopper Labs is helping carriers like yours streamline operations and boost profitability. Today we'll walk through our complete platform that eliminates manual processes and gives you real-time visibility across your entire operation."</div>
+  <div class="main">
+    <nav>
+      <ul>
+      <li class="nav-item active" onclick="goTo(0)">Introduction &amp; Platform Overview</li>
+      <li class="nav-item " onclick="goTo(1)">Dispatch &amp; Routing Optimization</li>
+      <li class="nav-item " onclick="goTo(2)">Driver Mobile App</li>
+      <li class="nav-item " onclick="goTo(3)">Customer Communication &amp; Notifications</li>
+      <li class="nav-item " onclick="goTo(4)">Automated Billing &amp; Invoicing</li>
+      <li class="nav-item " onclick="goTo(5)">Analytics &amp; Performance Dashboard</li>
+      <li class="nav-item " onclick="goTo(6)">Next Steps &amp; Implementation</li></ul>
+    </nav>
+    <div class="content">
+      
+    <div class="step active" id="step-0">
+      <div class="step-header">
+        <span class="step-num">Step 1</span>
+        <h2>Introduction &amp; Platform Overview</h2>
+      </div>
+      <ul class="bullets">
+        <li>Welcome Demo Test Deal to the future of logistics technology</li>
+        <li>Overview of how Grasshopper Labs serves carriers with end-to-end solutions</li>
+        <li>Quick preview of the key modules we'll explore today</li>
+      </ul>
+      <div class="wow-box"><span class="wow-label">⚡ WOW Moment</span><p>Show the unified dashboard where Demo Test Deal can see their entire operation at a glance</p></div>
+      <div class="nav-tip"><span>🗺 Navigation</span> Start from the main dashboard to showcase the comprehensive view</div>
+      <div class="loom-box">
+        <input type="text" class="loom-input" placeholder="Paste Loom / YouTube URL here…" />
+        <button class="loom-btn" onclick="embedVideo(0)">Embed</button>
+        <div class="loom-embed" id="embed-0"></div>
+      </div>
+    </div>
+
+    <div class="step " id="step-1">
+      <div class="step-header">
+        <span class="step-num">Step 2</span>
+        <h2>Dispatch &amp; Routing Optimization</h2>
+      </div>
+      <ul class="bullets">
+        <li>Automated route optimization that saves Demo Test Deal 20-30% on fuel costs</li>
+        <li>Real-time dispatch board with drag-and-drop functionality</li>
+        <li>AI-powered load matching that maximizes vehicle utilization</li>
+      </ul>
+      <div class="wow-box"><span class="wow-label">⚡ WOW Moment</span><p>Demonstrate live route optimization recalculating in seconds when new orders come in</p></div>
+      <div class="nav-tip"><span>🗺 Navigation</span> Navigate to Dispatch &gt; Route Planner and show live optimization</div>
+      <div class="loom-box">
+        <input type="text" class="loom-input" placeholder="Paste Loom / YouTube URL here…" />
+        <button class="loom-btn" onclick="embedVideo(1)">Embed</button>
+        <div class="loom-embed" id="embed-1"></div>
+      </div>
+    </div>
+
+    <div class="step " id="step-2">
+      <div class="step-header">
+        <span class="step-num">Step 3</span>
+        <h2>Driver Mobile App</h2>
+      </div>
+      <ul class="bullets">
+        <li>Turn-by-turn navigation integrated with delivery workflows</li>
+        <li>Digital proof of delivery that eliminates paperwork for Demo Test Deal</li>
+        <li>Real-time communication between drivers and dispatch</li>
+      </ul>
+      <div class="wow-box"><span class="wow-label">⚡ WOW Moment</span><p>Show how drivers can update delivery status instantly, giving Demo Test Deal complete visibility</p></div>
+      <div class="nav-tip"><span>🗺 Navigation</span> Switch to mobile view or use the driver app simulator</div>
+      <div class="loom-box">
+        <input type="text" class="loom-input" placeholder="Paste Loom / YouTube URL here…" />
+        <button class="loom-btn" onclick="embedVideo(2)">Embed</button>
+        <div class="loom-embed" id="embed-2"></div>
+      </div>
+    </div>
+
+    <div class="step " id="step-3">
+      <div class="step-header">
+        <span class="step-num">Step 4</span>
+        <h2>Customer Communication &amp; Notifications</h2>
+      </div>
+      <ul class="bullets">
+        <li>Automated SMS and email notifications keep Demo Test Deal's customers informed</li>
+        <li>Branded tracking portal that enhances Demo Test Deal's professional image</li>
+        <li>Proactive exception alerts that prevent service failures</li>
+      </ul>
+      <div class="wow-box"><span class="wow-label">⚡ WOW Moment</span><p>Display real-time tracking from a customer's perspective with Demo Test Deal branding</p></div>
+      <div class="nav-tip"><span>🗺 Navigation</span> Open the customer portal in a new tab to show the end-customer experience</div>
+      <div class="loom-box">
+        <input type="text" class="loom-input" placeholder="Paste Loom / YouTube URL here…" />
+        <button class="loom-btn" onclick="embedVideo(3)">Embed</button>
+        <div class="loom-embed" id="embed-3"></div>
+      </div>
+    </div>
+
+    <div class="step " id="step-4">
+      <div class="step-header">
+        <span class="step-num">Step 5</span>
+        <h2>Automated Billing &amp; Invoicing</h2>
+      </div>
+      <ul class="bullets">
+        <li>Generate invoices automatically based on completed deliveries</li>
+        <li>Integrate with Demo Test Deal's existing accounting systems</li>
+        <li>Detailed cost tracking and margin analysis per route</li>
+      </ul>
+      <div class="wow-box"><span class="wow-label">⚡ WOW Moment</span><p>Show how a completed delivery instantly generates an accurate invoice</p></div>
+      <div class="nav-tip"><span>🗺 Navigation</span> Navigate to Billing &gt; Invoice Generator and demo the automation</div>
+      <div class="loom-box">
+        <input type="text" class="loom-input" placeholder="Paste Loom / YouTube URL here…" />
+        <button class="loom-btn" onclick="embedVideo(4)">Embed</button>
+        <div class="loom-embed" id="embed-4"></div>
+      </div>
+    </div>
+
+    <div class="step " id="step-5">
+      <div class="step-header">
+        <span class="step-num">Step 6</span>
+        <h2>Analytics &amp; Performance Dashboard</h2>
+      </div>
+      <ul class="bullets">
+        <li>Real-time KPIs showing Demo Test Deal's delivery performance</li>
+        <li>Driver scorecards and route efficiency metrics</li>
+        <li>Predictive analytics for capacity planning and growth</li>
+      </ul>
+      <div class="wow-box"><span class="wow-label">⚡ WOW Moment</span><p>Reveal the ROI calculator showing Demo Test Deal's potential savings and revenue increase</p></div>
+      <div class="nav-tip"><span>🗺 Navigation</span> Go to Analytics &gt; Executive Dashboard for the comprehensive view</div>
+      <div class="loom-box">
+        <input type="text" class="loom-input" placeholder="Paste Loom / YouTube URL here…" />
+        <button class="loom-btn" onclick="embedVideo(5)">Embed</button>
+        <div class="loom-embed" id="embed-5"></div>
+      </div>
+    </div>
+
+    <div class="step " id="step-6">
+      <div class="step-header">
+        <span class="step-num">Step 7</span>
+        <h2>Next Steps &amp; Implementation</h2>
+      </div>
+      <ul class="bullets">
+        <li>Review how Grasshopper Labs can transform Demo Test Deal's operations</li>
+        <li>Discuss implementation timeline and onboarding process</li>
+        <li>Address any specific questions about Demo Test Deal's current challenges</li>
+      </ul>
+      <div class="wow-box"><span class="wow-label">⚡ WOW Moment</span><p>Present a customized implementation roadmap specifically for Demo Test Deal</p></div>
+      <div class="nav-tip"><span>🗺 Navigation</span> Return to main dashboard to summarize the complete solution</div>
+      <div class="loom-box">
+        <input type="text" class="loom-input" placeholder="Paste Loom / YouTube URL here…" />
+        <button class="loom-btn" onclick="embedVideo(6)">Embed</button>
+        <div class="loom-embed" id="embed-6"></div>
+      </div>
+    </div>
+      <div class="closing-box" id="closing-box" style="display:none">
+        <h3>🎯 Closing Question</h3>
+        <p>Based on what we've covered today, which area would deliver the biggest impact for Demo Test Deal - the automated dispatch optimization or the real-time driver management capabilities?</p>
+      </div>
+      <div class="nav-btns">
+        <button class="btn-prev" onclick="prev()">← Back</button>
+        <button class="btn-next" onclick="next()">Next →</button>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <span>Rep: Ori Anavim · April 7, 2026</span>
+    <span>demo_demo_test_deal_2026-04-07_t014it.html</span>
+  </footer>
+  <script>
+    let current = 0;
+    const total = 7;
+    function goTo(i) {
+      document.querySelectorAll(".step").forEach((s, idx) => s.classList.toggle("active", idx === i));
+      document.querySelectorAll(".nav-item").forEach((n, idx) => n.classList.toggle("active", idx === i));
+      document.getElementById("closing-box").style.display = i === total - 1 ? "block" : "none";
+      current = i;
+    }
+    function next() { if (current < total - 1) goTo(current + 1); }
+    function prev() { if (current > 0) goTo(current - 1); }
+    document.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") next(); if (e.key === "ArrowLeft") prev(); });
+    function embedVideo(i) {
+      const input = document.querySelectorAll(".loom-input")[i];
+      const container = document.getElementById("embed-" + i);
+      let url = input.value.trim();
+      let embedUrl = "";
+      if (url.includes("loom.com/share/")) {
+        const id = url.split("/share/")[1].split("?")[0];
+        embedUrl = "https://www.loom.com/embed/" + id;
+      } else if (url.includes("youtube.com/watch")) {
+        const id = new URL(url).searchParams.get("v");
+        embedUrl = "https://www.youtube.com/embed/" + id;
+      } else if (url.includes("youtu.be/")) {
+        const id = url.split("youtu.be/")[1].split("?")[0];
+        embedUrl = "https://www.youtube.com/embed/" + id;
+      } else if (url.includes("vimeo.com/")) {
+        const id = url.split("vimeo.com/")[1].split("?")[0];
+        embedUrl = "https://player.vimeo.com/video/" + id;
+      }
+      if (embedUrl) container.innerHTML = '<iframe src="' + embedUrl + '" allowfullscreen></iframe>';
+    }
+  </script>
+</body>
+</html>
