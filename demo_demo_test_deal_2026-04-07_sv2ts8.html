@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grasshopper Demo — Demo Test Deal</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0f0f1a; color: #f0f0f0; display: flex; flex-direction: column; min-height: 100vh; }
+    header { background: #1a1a2e; border-bottom: 3px solid #e8530a; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 1.4rem; font-weight: 800; color: #e8530a; letter-spacing: -0.5px; }
+    .prospect-badge { background: #e8530a22; border: 1px solid #e8530a55; border-radius: 8px; padding: 6px 14px; font-size: 0.85rem; color: #e8530a; }
+    .prospect-badge strong { color: #fff; }
+    .opening-hook { background: #1a1a2e; border-left: 4px solid #e8530a; padding: 14px 28px; font-size: 0.95rem; color: #ccc; font-style: italic; }
+    .main { display: flex; flex: 1; }
+    nav { width: 220px; background: #12121f; border-right: 1px solid #2a2a3e; padding: 20px 0; flex-shrink: 0; }
+    nav ul { list-style: none; }
+    .nav-item { padding: 12px 20px; cursor: pointer; font-size: 0.85rem; color: #888; border-left: 3px solid transparent; transition: all 0.15s; }
+    .nav-item:hover { color: #fff; background: #1a1a2e; }
+    .nav-item.active { color: #fff; border-left-color: #e8530a; background: #1a1a2e; font-weight: 600; }
+    .content { flex: 1; padding: 32px 40px; max-width: 860px; }
+    .step { display: none; }
+    .step.active { display: block; }
+    .step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+    .step-num { background: #e8530a; color: #fff; font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; }
+    h2 { font-size: 1.6rem; font-weight: 700; color: #fff; }
+    .bullets { margin: 0 0 24px 20px; }
+    .bullets li { margin-bottom: 10px; color: #ccc; line-height: 1.6; }
+    .wow-box { background: #1e1a0e; border: 1px solid #e8530a44; border-radius: 8px; padding: 16px 20px; margin-bottom: 16px; }
+    .wow-label { font-size: 0.8rem; font-weight: 700; color: #e8530a; display: block; margin-bottom: 6px; }
+    .wow-box p { color: #ddd; font-size: 0.95rem; }
+    .nav-tip { font-size: 0.82rem; color: #777; background: #1a1a2e; padding: 10px 14px; border-radius: 6px; margin-bottom: 20px; }
+    .nav-tip span { color: #e8530a; font-weight: 600; margin-right: 6px; }
+    .loom-box { margin-top: 24px; }
+    .loom-input { width: 70%; padding: 9px 12px; background: #1a1a2e; border: 1px solid #333; border-radius: 6px; color: #fff; font-size: 0.9rem; }
+    .loom-btn { padding: 9px 18px; background: #e8530a; border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; margin-left: 8px; }
+    .loom-btn:hover { background: #c94509; }
+    .loom-embed { margin-top: 14px; }
+    .loom-embed iframe { border-radius: 8px; border: none; width: 100%; max-width: 680px; height: 380px; }
+    .nav-btns { display: flex; gap: 12px; margin-top: 32px; }
+    .nav-btns button { padding: 10px 22px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 600; }
+    .btn-prev { background: #2a2a3e; color: #ccc; }
+    .btn-next { background: #e8530a; color: #fff; }
+    footer { background: #12121f; border-top: 1px solid #2a2a3e; padding: 12px 28px; display: flex; justify-content: space-between; font-size: 0.78rem; color: #555; }
+    .closing-box { background: #1a1a2e; border: 1px solid #2a2a3e; border-radius: 8px; padding: 20px; margin-top: 24px; }
+    .closing-box h3 { color: #e8530a; font-size: 1rem; margin-bottom: 10px; }
+    .closing-box p { color: #ccc; font-size: 0.95rem; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">🦗 Grasshopper Labs</div>
+    <div class="prospect-badge">Demo for <strong>Prospect</strong> · Demo Test Deal · Last-Mile Carrier</div>
+  </header>
+  <div class="opening-hook">"Hi Demo Test Deal team, I know carriers like yourselves are constantly balancing driver efficiency with customer satisfaction while managing rising operational costs. Today I'll show you how our platform can streamline your dispatch operations and give you the visibility you need to scale profitably."</div>
+  <div class="main">
+    <nav>
+      <ul>
+      <li class="nav-item active" onclick="goTo(0)">Introduction &amp; Platform Overview</li>
+      <li class="nav-item " onclick="goTo(1)">Dispatch &amp; Routing Optimization</li>
+      <li class="nav-item " onclick="goTo(2)">Driver Mobile App Experience</li>
+      <li class="nav-item " onclick="goTo(3)">Customer Communication &amp; Notifications</li>
+      <li class="nav-item " onclick="goTo(4)">Automated Billing &amp; Invoicing</li>
+      <li class="nav-item " onclick="goTo(5)">Analytics &amp; Performance Insights</li>
+      <li class="nav-item " onclick="goTo(6)">Next Steps &amp; Implementation</li></ul>
+    </nav>
+    <div class="content">
+      
+    <div class="step active" id="step-0">
+      <div class="step-header">
+        <span class="step-num">Step 1</span>
+        <h2>Introduction &amp; Platform Overview</h2>
+      </div>
+      <ul class="bullets">
+        <li>Welcome Demo Test Deal - we're excited to show you how Grasshopper can transform your carrier operations</li>
+        <li>Our platform serves 200+ carriers nationwide, reducing dispatch time by 40% and improving customer satisfaction</li>
+        <li>Today we'll focus on the core workflows that impact your daily operations most</li>
+      </ul>
+      <div class="wow-box"><span class="wow-label">⚡ WOW Moment</span><p>Live map showing real-time optimization of actual carrier routes with 15-second dispatch updates</p></div>
+      <div class="nav-tip"><span>🗺 Navigation</span> Start with dashboard overview showing key metrics and real-time activity</div>
+      <div class="loom-box">
+        <input type="text" class="loom-input" placeholder="Paste Loom / YouTube URL here…" />
+        <button class="loom-btn" onclick="embedVideo(0)">Embed</button>
+        <div class="loom-embed" id="embed-0"></div>
+      </div>
+    </div>
+
+    <div class="step " id="step-1">
+      <div class="step-header">
+        <span class="step-num">Step 2</span>
+        <h2>Dispatch &amp; Routing Optimization</h2>
+      </div>
+      <ul class="bullets">
+        <li>Show intelligent load assignment based on driver location, capacity, and preferences</li>
+        <li>Demonstrate real-time route optimization that adapts to traffic and delivery windows</li>
+        <li>Highlight how automated dispatch reduces manual coordination time from hours to minutes</li>
+      </ul>
+      <div class="wow-box"><span class="wow-label">⚡ WOW Moment</span><p>Watch routes automatically reoptimize when a new urgent delivery is added, showing 23% time savings</p></div>
+      <div class="nav-tip"><span>🗺 Navigation</span> Navigate to Dispatch → Active Routes → Add New Delivery to show dynamic optimization</div>
+      <div class="loom-box">
+        <input type="text" class="loom-input" placeholder="Paste Loom / YouTube URL here…" />
+        <button class="loom-btn" onclick="embedVideo(1)">Embed</button>
+        <div class="loom-embed" id="embed-1"></div>
+      </div>
+    </div>
+
+    <div class="step " id="step-2">
+      <div class="step-header">
+        <span class="step-num">Step 3</span>
+        <h2>Driver Mobile App Experience</h2>
+      </div>
+      <ul class="bullets">
+        <li>Show how drivers receive optimized routes with turn-by-turn navigation</li>
+        <li>Demonstrate proof of delivery capture with photos, signatures, and notes</li>
+        <li>Highlight driver communication tools and real-time status updates</li>
+      </ul>
+      <div class="wow-box"><span class="wow-label">⚡ WOW Moment</span><p>Driver app automatically updates ETA for all subsequent deliveries when one runs late</p></div>
+      <div class="nav-tip"><span>🗺 Navigation</span> Switch to mobile view and simulate driver workflow from pickup to delivery</div>
+      <div class="loom-box">
+        <input type="text" class="loom-input" placeholder="Paste Loom / YouTube URL here…" />
+        <button class="loom-btn" onclick="embedVideo(2)">Embed</button>
+        <div class="loom-embed" id="embed-2"></div>
+      </div>
+    </div>
+
+    <div class="step " id="step-3">
+      <div class="step-header">
+        <span class="step-num">Step 4</span>
+        <h2>Customer Communication &amp; Notifications</h2>
+      </div>
+      <ul class="bullets">
+        <li>Automated SMS and email notifications keep customers informed throughout delivery</li>
+        <li>Branded tracking portal gives customers real-time visibility into their shipments</li>
+        <li>Exception handling automatically notifies customers of delays with new ETAs</li>
+      </ul>
+      <div class="wow-box"><span class="wow-label">⚡ WOW Moment</span><p>Customer receives automatic notification with driver photo and live tracking link 30 minutes before delivery</p></div>
+      <div class="nav-tip"><span>🗺 Navigation</span> Show customer portal and trigger sample notification to demonstrate real-time updates</div>
+      <div class="loom-box">
+        <input type="text" class="loom-input" placeholder="Paste Loom / YouTube URL here…" />
+        <button class="loom-btn" onclick="embedVideo(3)">Embed</button>
+        <div class="loom-embed" id="embed-3"></div>
+      </div>
+    </div>
+
+    <div class="step " id="step-4">
+      <div class="step-header">
+        <span class="step-num">Step 5</span>
+        <h2>Automated Billing &amp; Invoicing</h2>
+      </div>
+      <ul class="bullets">
+        <li>Proof of delivery automatically generates invoices with accurate mileage and time tracking</li>
+        <li>Customizable billing rules handle complex rate structures and surcharges</li>
+        <li>Integration with accounting systems eliminates double data entry</li>
+      </ul>
+      <div class="wow-box"><span class="wow-label">⚡ WOW Moment</span><p>Invoice generates automatically 5 minutes after delivery completion with all POD documentation attached</p></div>
+      <div class="nav-tip"><span>🗺 Navigation</span> Navigate to Billing → Recent Deliveries and show auto-generated invoice</div>
+      <div class="loom-box">
+        <input type="text" class="loom-input" placeholder="Paste Loom / YouTube URL here…" />
+        <button class="loom-btn" onclick="embedVideo(4)">Embed</button>
+        <div class="loom-embed" id="embed-4"></div>
+      </div>
+    </div>
+
+    <div class="step " id="step-5">
+      <div class="step-header">
+        <span class="step-num">Step 6</span>
+        <h2>Analytics &amp; Performance Insights</h2>
+      </div>
+      <ul class="bullets">
+        <li>Real-time dashboards show KPIs like on-time delivery rates, driver utilization, and customer satisfaction</li>
+        <li>Route analysis identifies optimization opportunities and cost-saving potential</li>
+        <li>Performance trends help Demo Test Deal make data-driven decisions for growth</li>
+      </ul>
+      <div class="wow-box"><span class="wow-label">⚡ WOW Moment</span><p>Analytics show Demo Test Deal could save $2,400 monthly by optimizing their current route patterns</p></div>
+      <div class="nav-tip"><span>🗺 Navigation</span> Navigate to Analytics → Performance Dashboard and highlight cost savings opportunities</div>
+      <div class="loom-box">
+        <input type="text" class="loom-input" placeholder="Paste Loom / YouTube URL here…" />
+        <button class="loom-btn" onclick="embedVideo(5)">Embed</button>
+        <div class="loom-embed" id="embed-5"></div>
+      </div>
+    </div>
+
+    <div class="step " id="step-6">
+      <div class="step-header">
+        <span class="step-num">Step 7</span>
+        <h2>Next Steps &amp; Implementation</h2>
+      </div>
+      <ul class="bullets">
+        <li>Our implementation team can have Demo Test Deal live in 2-3 weeks with full data migration</li>
+        <li>We provide comprehensive training and ongoing support to ensure smooth adoption</li>
+        <li>ROI typically achieved within 60 days through improved efficiency and customer retention</li>
+      </ul>
+      <div class="wow-box"><span class="wow-label">⚡ WOW Moment</span><p>Show implementation timeline with Demo Test Deal's actual go-live date and expected savings</p></div>
+      <div class="nav-tip"><span>🗺 Navigation</span> Switch to implementation roadmap and customize dates for Demo Test Deal</div>
+      <div class="loom-box">
+        <input type="text" class="loom-input" placeholder="Paste Loom / YouTube URL here…" />
+        <button class="loom-btn" onclick="embedVideo(6)">Embed</button>
+        <div class="loom-embed" id="embed-6"></div>
+      </div>
+    </div>
+      <div class="closing-box" id="closing-box" style="display:none">
+        <h3>🎯 Closing Question</h3>
+        <p>Based on what you've seen today, which of these capabilities - the automated dispatch optimization, real-time driver coordination, or the customer visibility features - would have the biggest immediate impact on Demo Test Deal's operations?</p>
+      </div>
+      <div class="nav-btns">
+        <button class="btn-prev" onclick="prev()">← Back</button>
+        <button class="btn-next" onclick="next()">Next →</button>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <span>Rep: Ori Anavim · April 7, 2026</span>
+    <span>demo_demo_test_deal_2026-04-07_sv2ts8.html</span>
+  </footer>
+  <script>
+    let current = 0;
+    const total = 7;
+    function goTo(i) {
+      document.querySelectorAll(".step").forEach((s, idx) => s.classList.toggle("active", idx === i));
+      document.querySelectorAll(".nav-item").forEach((n, idx) => n.classList.toggle("active", idx === i));
+      document.getElementById("closing-box").style.display = i === total - 1 ? "block" : "none";
+      current = i;
+    }
+    function next() { if (current < total - 1) goTo(current + 1); }
+    function prev() { if (current > 0) goTo(current - 1); }
+    document.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") next(); if (e.key === "ArrowLeft") prev(); });
+    function embedVideo(i) {
+      const input = document.querySelectorAll(".loom-input")[i];
+      const container = document.getElementById("embed-" + i);
+      let url = input.value.trim();
+      let embedUrl = "";
+      if (url.includes("loom.com/share/")) {
+        const id = url.split("/share/")[1].split("?")[0];
+        embedUrl = "https://www.loom.com/embed/" + id;
+      } else if (url.includes("youtube.com/watch")) {
+        const id = new URL(url).searchParams.get("v");
+        embedUrl = "https://www.youtube.com/embed/" + id;
+      } else if (url.includes("youtu.be/")) {
+        const id = url.split("youtu.be/")[1].split("?")[0];
+        embedUrl = "https://www.youtube.com/embed/" + id;
+      } else if (url.includes("vimeo.com/")) {
+        const id = url.split("vimeo.com/")[1].split("?")[0];
+        embedUrl = "https://player.vimeo.com/video/" + id;
+      }
+      if (embedUrl) container.innerHTML = '<iframe src="' + embedUrl + '" allowfullscreen></iframe>';
+    }
+  </script>
+</body>
+</html>
