@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grasshopper Labs Demo - Acme Furniture | Sarah</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a2e;
+            color: white;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .sidebar {
+            width: 300px;
+            background-color: #0f0f1a;
+            padding: 20px;
+            overflow-y: auto;
+            border-right: 2px solid #e8530a;
+        }
+        
+        .logo {
+            color: #e8530a;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .prospect-info {
+            background-color: #2a2a3e;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e8530a;
+        }
+        
+        .prospect-info h3 {
+            color: #e8530a;
+            margin-bottom: 5px;
+        }
+        
+        .step-nav {
+            list-style: none;
+        }
+        
+        .step-nav li {
+            margin-bottom: 10px;
+            padding: 12px;
+            background-color: #2a2a3e;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .step-nav li:hover {
+            background-color: #3a3a4e;
+            transform: translateX(5px);
+        }
+        
+        .step-nav li.active {
+            background-color: #e8530a;
+            color: white;
+            border-left-color: white;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .demo-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #2a2a3e;
+            border-radius: 10px;
+            border: 2px solid #e8530a;
+        }
+        
+        .demo-header h1 {
+            color: #e8530a;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .demo-header h2 {
+            color: #cccccc;
+            font-size: 20px;
+        }
+        
+        .step-content {
+            display: none;
+        }
+        
+        .step-content.active {
+            display: block;
+        }
+        
+        .step-title {
+            font-size: 32px;
+            color: #e8530a;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .talking-points {
+            background-color: #2a2a3e;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .talking-points h3 {
+            color: #e8530a;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .talking-points ul {
+            list-style: none;
+        }
+        
+        .talking-points li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .talking-points li:before {
+            content: "▶";
+            color: #e8530a;
+            position: absolute;
+            left: 0;
+        }
+        
+        .video-container {
+            background-color: #2a2a3e;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .video-container h3 {
+            color: #e8530a;
+            margin-bottom: 15px;
+        }
+        
+        .video-input {
+            width: 100%;
+            padding: 15px;
+            background-color: #1a1a2e;
+            border: 2px solid #e8530a;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+        }
+        
+        .video-input::placeholder {
+            color: #888;
+        }
+        
+        iframe {
+            border-radius: 10px;
+            border: 2px solid #e8530a;
+        }
+        
+        .wow-moment {
+            background: linear-gradient(135deg, #e8530a, #ff6b1a);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid white;
+        }
+        
+        .wow-moment h3 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        
+        .wow-moment p {
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        
+        .nav-tip {
+            background-color: #0f4c3a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #00ff88;
+        }
+        
+        .nav-tip h4 {
+            color: #00ff88;
+            margin-bottom: 5px;
+        }
+        
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .control-btn {
+            padding: 12px 20px;
+            background-color: #e8530a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            background-color: #ff6b1a;
+            transform: translateY(-2px);
+        }
+        
+        .control-btn:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #0f0f1a;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+            border-top: 1px solid #e8530a;
+        }
+        
+        .keyboard-hint {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #2a2a3e;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 12px;
+            color: #ccc;
+            border: 1px solid #e8530a;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">Grasshopper Labs</div>
+        
+        <div class="prospect-info">
+            <h3>Sarah @ Acme Furniture</h3>
+            <p>Last-Mile Delivery Demo</p>
+            <p>April 13, 2026</p>
+        </div>
+        
+        <ul class="step-nav" id="stepNav">
+            <li data-step="0" class="active">1. Introduction</li>
+            <li data-step="1">2. Bulk Import Orders</li>
+            <li data-step="2">3. WMS Receive</li>
+            <li data-step="3">4. Customer Self-Scheduling</li>
+            <li data-step="4">5. Route the Truck</li>
+            <li data-step="5">6. Broadcast Time Frames</li>
+            <li data-step="6">7. Driver App</li>
+            <li data-step="7">8. Live Truck View</li>
+            <li data-step="8">9. Financials/Invoice</li>
+        </ul>
+    </div>
+    
+    <div class="main-content">
+        <div class="demo-header">
+            <h1>Grasshopper Labs Demo for Acme Furniture</h1>
+            <h2>Transforming Last-Mile Delivery Operations</h2>
+        </div>
+        
+        <div class="step-content active" id="step-0">
+            <h2 class="step-title">Welcome Sarah! Let's Transform Acme Furniture's Delivery Operations</h2>
+            
+            <div class="talking-points">
+                <h3>Opening Talking Points:</h3>
+                <ul>
+                    <li>Sarah, thank you for taking the time today to see how Grasshopper Labs can revolutionize Acme Furniture's last-mile delivery operations</li>
+                    <li>As a furniture company, I know you're dealing with complex delivery challenges - heavy items, scheduling coordination, and customer satisfaction</li>
+                    <li>Today I'll show you how our platform can streamline everything from order import to final delivery and invoicing</li>
+                    <li>We'll walk through a typical day in your operation, showing how each step becomes more efficient with Grasshopper Labs</li>
+                    <li>Feel free to interrupt with questions anytime - this demo is tailored specifically for Acme Furniture's needs</li>
+                </ul>
+            </div>
+            
+            <div class="video-container">
+                <h3>Demo Video</h3>
+                <input type="text" class="video-input" placeholder="Paste Loom, YouTube, or Google Drive link">
+            </div>
+            
+            <div class="wow-moment">
+                <h3>🚀 WOW Moment</h3>
+                <p>By the end of this demo, you'll see exactly how Acme Furniture can reduce delivery costs by 30% while increasing customer satisfaction through real-time tracking and professional delivery management!</p>
+            </div>
+            
+            <div class="nav-tip">
+                <h4>Navigation Tip:</h4>
+                <p>Let's start by showing how easy it is to get your existing orders into our system...</p>
+            </div>
+        </div>
+        
+        <div class="step-content" id="step-1">
+            <h2 class="step-title">Bulk Import Orders - No More Manual Entry</h2>
+            
+            <div class="talking-points">
+                <h3>Key Talking Points:</h3>
+                <ul>
+                    <li>Sarah, I know Acme Furniture probably has orders coming from multiple sources - your website, showrooms, maybe partner retailers</li>
+                    <li>Instead of manually entering each furniture delivery, you can bulk import everything at once</li>
+                    <li>Support for CSV files, API connections, or direct integrations with your existing order management system</li>
+                    <li>All customer details, delivery addresses, item specifications, and special delivery instructions import automatically</li>
+                    <li>Perfect for furniture deliveries that need specific scheduling and handling requirements</li>
+                </ul>
+            </div>
+            
+            <div class="video-container">
+                <h3>Demo Video</h3>
+                <input type="text" class="video-input" placeholder="Paste Loom, YouTube, or Google Drive link">
+            </div>
+            
+            <div class="wow-moment">
+                <h3>⚡ WOW Moment</h3>
+                <p>Watch this - 500 furniture delivery orders imported in under 30 seconds, with all customer details and delivery requirements automatically organized!</p>
+            </div>
+            
+            <div class="nav-tip">
+                <h4>Navigation Tip:</h4>
+                <p>Now that orders are in the system, let's see how your warehouse team receives and processes furniture items...</p>
+            </div>
+        </div>
+        
+        <div class="step-content" id="step-2">
+            <h2 class="step-title">WMS Receive - Smart Warehouse Management</h2>
+            
+            <div class="talking-points">
+                <h3>Key Talking Points:</h3>
+                <ul>
+                    <li>Sarah, when furniture arrives at Acme's warehouse, your team needs to know exactly what's expected and where it should go</li>
+                    <li>Our WMS module shows expected deliveries, allows quick receiving with barcode scanning</li>
+                    <li>Track furniture condition, note any damage, and automatically update inventory levels</li>
+                    <li>Special handling for large furniture items - track dimensions, weight, and delivery requirements</li>
+                    <li>Seamless integration with your existing warehouse workflows and staff training</li>
+                </ul>
+            </div>
+            
+            <div class="video-container">
+                <h3>Demo Video</h3>
+                <input type="text" class="video-input" placeholder="Paste Loom, YouTube, or Google Drive link">
+            </div>
+            
+            <div class="wow-moment">
+                <h3>🎯 WOW Moment</h3>
+                <p>See how warehouse staff can process a full furniture delivery truck in half the time, with automatic inventory updates and damage tracking!</p>
+            </div>
+            
+            <div class="nav-tip">
+                <h4>Navigation Tip:</h4>
+                <p>With items received, let's show how customers can schedule their own furniture deliveries...</p>
+            </div>
+        </div>
+        
+        <div class="step-content" id="step-3">
+            <h2 class="step-title">Customer Self-Scheduling - Reduce Phone Calls</h2>
+            
+            <div class="talking-points">
+                <h3>Key Talking Points:</h3>
+                <ul>
+                    <li>Sarah, imagine if Acme Furniture customers could schedule their own delivery appointments without calling your office</li>
+                    <li>Customers receive a branded portal link where they see available delivery windows</li>
+                    <li>They can choose morning/afternoon/evening slots based on your actual truck capacity</li>
+                    <li>Special options for furniture delivery - "delivery only" vs "delivery + setup" vs "white glove service"</li>
+                    <li>Automatic confirmations and reminders reduce no-shows and improve customer satisfaction</li>
+                </ul>
+            </div>
+            
+            <div class="video-container">
+                <h3>Demo Video</h3>
+                <input type="text" class="video-input" placeholder="Paste Loom, YouTube, or Google Drive link">
+            </div>
+            
+            <div class="wow-moment">
+                <h3>📞 WOW Moment</h3>
+                <p>Your office phone stops ringing! 85% of customers schedule themselves, freeing up your team to focus on complex deliveries and customer service!</p>
+            </div>
+            
+            <div class="nav-tip">
+                <h4>Navigation Tip:</h4>
+                <p>With appointments scheduled, let's see how Grasshopper builds optimal delivery routes for your drivers...</p>
+            </div>
+        </div>
+        
+        <div class="step-content" id="step-4">
+            <h2 class="step-title">Route the Truck - Optimal Delivery Planning</h2>
+            
+            <div class="talking-points">
+                <h3>Key Talking Points:</h3>
+                <ul>
+                    <li>Sarah, furniture delivery is complex - you need to consider truck capacity, delivery windows, and driver capabilities</li>
+                    <li>Our routing engine automatically builds optimal routes considering furniture size, weight, and delivery complexity</li>
+                    <li>Factors in traffic patterns, driver break times, and customer availability windows</li>
+                    <li>Special handling for large furniture items that require two-person delivery teams</li>
+                    <li>Easy drag-and-drop to adjust routes if needed, with automatic time recalculation</li>
+                </ul>
+            </div>
+            
+            <div class="video-container">
+                <h3>Demo Video</h3>
+                <input type="text" class="video-input" placeholder="Paste Loom, YouTube, or Google Drive link">
+            </div>
+            
+            <div class="wow-moment">
+                <h3>🗺️ WOW Moment</h3>
+                <p>Watch how AI routing saves 2-3 hours per truck per day by optimizing stop sequence and considering furniture delivery requirements!</p>
+            </div>
+            
+            <div class="nav-tip">
+                <h4>Navigation Tip:</h4>
+                <p>Routes are optimized - now let's see how you keep customers informed about their delivery windows...</p>
+            </div>
+        </div>
+        
+        <div class="step-content" id="step-5">
+            <h2 class="step-title">Broadcast Time Frames - Proactive Communication</h2>
+            
+            <div class="talking-points">
+                <h3>Key Talking Points:</h3>
+                <ul>
+                    <li>Sarah, nothing frustrates furniture customers more than sitting home all day waiting for delivery</li>
+                    <li>Grasshopper automatically sends customers their specific delivery window via SMS and email</li>
+                    <li>Updates adjust in real-time as your driver progresses through their route</li>
+                    <li>Branded messages with Acme Furniture's logo and contact information</li>
+                    <li>Customers can track their delivery status and get accurate arrival estimates</li>
+                </ul>
+            </div>
+            
+            <div class="video-container">
+                <h3>Demo Video</h3>
+                <input type="text" class="video-input" placeholder="Paste Loom, YouTube, or Google Drive link">
+            </div>
+            
+            <div class="wow-moment">
+                <h3>📱 WOW Moment</h3>
+                <p>Customer satisfaction scores increase by 40% when they receive proactive delivery updates and accurate time windows!</p>
+            </div>
+            
+            <div class="nav-tip">
+                <h4>Navigation Tip:</h4>
+                <p>Customers are informed - now let's see the mobile app that makes your drivers more efficient...</p>
+            </div>
+        </div>
+        
+        <div class="step-content" id="step-6">
+            <h2 class="step-title">Driver App - Mobile Efficiency</h2>
+            
+            <div class="talking-points">
+                <h3>Key Talking Points:</h3>
+                <ul>
+                    <li>Sarah, your delivery drivers need an intuitive mobile app that works perfectly for furniture delivery</li>
+                    <li>Turn-by-turn navigation, customer contact info, and special delivery instructions all in one place</li>
+                    <li>Capture delivery photos, customer signatures, and any delivery notes</li>
+                    <li>Perfect for furniture delivery - document item condition, placement, and customer satisfaction</li>
+                    <li>Works offline so drivers stay productive even in areas with poor cell service</li>
+                </ul>
+            </div>
+            
+            <div class="video-container">
+                <h3>Demo Video</h3>
+                <input type="text" class="video-input" placeholder="Paste Loom, YouTube, or Google Drive link">
+            </div>
+            
+            <div class="wow-moment">
+                <h3>📲 WOW Moment</h3>
+                <p>Drivers complete deliveries 25% faster with the mobile app, and you have complete delivery documentation for every furniture piece!</p>
+            </div>
+            
+            <div class="nav-tip">
+                <h4>Navigation Tip:</h4>
+                <p>While drivers are out delivering, let's see how you can monitor everything in real-time...</p>
+            </div>
+        </div>
+        
+        <div class="step-content" id="step-7">
+            <h2 class="step-title">Live Truck View - Real-Time Visibility</h2>
+            
+            <div class="talking-points">
+                <h3>Key Talking Points:</h3>
+                <ul>
+                    <li>Sarah, as Acme Furniture's operations manager, you need complete visibility into your delivery fleet</li>
+                    <li>Live map shows all trucks, their current locations, and progress through delivery routes</li>
+                    <li>See which deliveries are completed, in progress, or delayed with color-coded status indicators</li>
+                    <li>Perfect for managing customer inquiries and proactively addressing any delivery issues</li>
+                    <li>Historical data helps you optimize routes and improve future delivery performance</li>
+                </ul>
+            </div>
+            
+            <div class="video-container">
+                <h3>Demo Video</h3>
+                <input type="text" class="video-input" placeholder="Paste Loom, YouTube, or Google Drive link">
+            </div>
+            
+            <div class="wow-moment">
+                <h3>👀 WOW Moment</h3>
+                <p>Complete operational visibility! You can answer any customer question immediately and proactively address delivery issues before they impact service!</p>
+            </div>
+            
+            <div class="nav-tip">
+                <h4>Navigation Tip:</h4>
+                <p>With deliveries tracked, let's finish by showing how easy invoicing and financial management becomes...</p>
+            </div>
+        </div>
+        
+        <div class="step-content" id="step-8">
+            <h2 class="step-title">Financials/Invoice - Streamlined Billing</h2>
+            
+            <div class="talking-points">
+                <h3>Key Talking Points:</h3>
+                <ul>
+                    <li>Sarah, once furniture deliveries are complete, Grasshopper automatically generates professional invoices</li>
+                    <li>Includes all delivery details, photos, signatures, and any additional services provided</li>
+                    <li>Automatic calculation of delivery fees, fuel surcharges, and any special handling charges</li>
+                    <li>Integration with QuickBooks, Sage, or other accounting systems Acme Furniture uses</li>
+                    <li>Complete audit trail from order import through delivery completion and payment</li>
+                </ul>
+            </div>
+            
+            <div class="video-container">
+                <h3>Demo Video</h3>
+                <input type="text" class="video-input" placeholder="Paste Loom, YouTube, or Google Drive link">
+            </div>
+            
+            <div class="wow-moment">
+                <h3>💰 WOW Moment</h3>
+                <p>Invoicing that used to take hours now happens automatically, and you get paid faster with professional documentation of every delivery!</p>
+            </div>
+            
+            <div class="nav-tip">
+                <h4>Next Steps:</h4>
+                <p>Sarah, that completes our tour of how Grasshopper Labs can transform Acme Furniture's delivery operations. What questions do you have about implementing this for your business?</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="keyboard-hint">
+        ← → Use arrow keys to navigate
+    </div>
+    
+    <div class="controls">
+        <button class="control-btn" id="prevBtn" onclick="previousStep()" disabled>← Previous</button>
+        <button class="control-btn" id="nextBtn" onclick="nextStep()">Next →</button>
+    </div>
+    
+    <div class="footer">
+        Demo for Sarah @ Acme Furniture | Sales Rep: ori | April 13, 2026 | © Grasshopper Labs
+    </div>
+    
+    <script>
+        let currentStep = 0;
+        const totalSteps = 9;
+        
+        function showStep(stepIndex) {
+            // Hide all steps
+            const steps = document.querySelectorAll('.step-content');
+            const navItems = document.querySelectorAll('.step-nav li');
+            
+            steps.forEach(step => step.classList.remove('active'));
+            navItems.forEach(item => item.classList.remove('active'));
+            
+            // Show current step
+            document.getElementById(`step-${stepIndex}`).classList.add('active');
+            document.querySelector(`[data-step="${stepIndex}"]`).classList.add('active');
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = stepIndex === 0;
+            document.getElementById('nextBtn').disabled = stepIndex === totalSteps - 1;
+            
+            currentStep = stepIndex;
+        }
+        
+        function nextStep() {
+            if (currentStep < totalSteps - 1) {
+                showStep(currentStep + 1);
+            }
+        }
+        
+        function previousStep() {
+            if (currentStep > 0) {
+                showStep(currentStep - 1);
+            }
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') {
+                nextStep();
+            } else if (e.key === 'ArrowLeft') {
+                previousStep();
+            }
+        });
+        
+        // Sidebar navigation
+        document.querySelectorAll('.step-nav li').forEach(item => {
+            item.addEventListener('click', function() {
+                const stepIndex = parseInt(this.getAttribute('data-step'));
+                showStep(stepIndex);
+            });
+        });
+        
+        // Initialize
+        showStep(0);
+    </script>
+</body>
+</html>
